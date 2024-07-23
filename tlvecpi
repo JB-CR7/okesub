@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 20
+
+char s[MAX];
+int top = -1;
+
+int precedence(char elem);
+void push(char elem);
+char pop();
+
+int main() {
+    char infix[MAX], postfix[MAX], ch, elem;
+    int i = 0, j = 0;
+
+    printf("\n\t\tProgram to Convert Infix to Postfix Expression.");
+    printf("\n\t\t~~~~~~~~~~~~~~\n");
+    printf("\nEnter the infix expression: \n");
+    scanf("%s", infix);
+    push('#');
+
+    for (i = 0; i < strlen(infix); i++) {
+        ch = infix[i];
+        if (isalnum(ch)) {
+            postfix[j++] = ch;
+        } else if (ch == '(') {
+            push(ch);
+        } else if (ch == ')') {
+            while (s[top] != '(') {
+                postfix[j++] = pop();
+            }
+            elem = pop(); // Pop the '('
+        } else {
+            while (precedence(s[top]) >= precedence(ch)) {
+                postfix[j++] = pop();
+            }
+            push(ch);
+        }
+    }
+
+    while (s[top] != '#') {
+        postfix[j++] = pop();
+    }
+    postfix[j] = '\0';
+
+    printf("\nPostfix Expression conversion is: \n%s\n", postfix);
+    return 0;
+}
+
+int precedence(char elem) {
+    switch (elem) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        case '^':
+            return 3;
+        case '(':
+        case '#':
+            return 0;
+        default:
+            return -1; 
+    }
+}
+
+void push(char elem) {
+    if (top < MAX - 1) {
+        ++top;
+        s[top] = elem;
+    } else {
+        printf("Stack Overflow\n");
+    }
+}
+
+char pop() {
+    if (top >= 0) {
+        return s[top--];
+    } else {
+        printf("Stack Underflow\n");
+        return '\0'; // Return a null character on underflow
+    }
+}
