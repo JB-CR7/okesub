@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int a[100], n;
+
+int max(int a[], int k, int n) {
+    int loc = k, j;
+    int max = a[k];
+
+    for (j = k + 1; j < n; j++) {
+        if (max < a[j]) {
+            max = a[j];
+            loc = j;
+        }
+    }
+    return loc;
+}
+
+void insertion_sort(int a[], int n) {
+    int pass, k, j;
+
+    for (pass = 1; pass < n; pass++) {
+        k = a[pass];
+        j = pass - 1;
+
+        while (j >= 0 && k < a[j]) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = k;
+    }
+}
+
+void accept_input() {
+    int i;
+    printf("Enter the number of elements:\n");
+    scanf("%d", &n);
+    printf("Enter the array elements:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+}
+
+void display() {
+    int i;
+    printf("\nThe sorted array is: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int k, temp, loc, ch;
+
+    while (1) {
+        printf("\nSorting Techniques");
+        printf("\n**********");
+        printf("\n1. Insertion Sort");
+        printf("\n2. Selection Sort");
+        printf("\n3. Exit");
+        printf("\nEnter your choice:\n");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:
+                accept_input();
+                insertion_sort(a, n);
+                display();
+                break;
+
+            case 2:
+                accept_input();
+                for (k = 0; k < n; k++) {
+                    loc = max(a, k, n);
+                    temp = a[k];
+                    a[k] = a[loc];
+                    a[loc] = temp;
+                }
+                display();
+                break;
+
+            case 3:
+                exit(0);
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+}
