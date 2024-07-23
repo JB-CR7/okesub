@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define N 10
+
+int QUEUE[N];
+int FRONT = 0, REAR = -1;
+int ITEM;
+
+void Qinsert() {
+    if (REAR == N - 1) {
+        printf("\nQueue Overflow");
+    } else {
+        printf("\nEnter an Item: ");
+        scanf("%d", &ITEM);
+        REAR++;
+        QUEUE[REAR] = ITEM;
+    }
+}
+
+void Qdelete() {
+    if (REAR < FRONT) {
+        printf("\nQueue Underflow");
+    } else if (REAR == FRONT) {
+        printf("\nThis is the Last Element in the Queue");
+        printf("\nThe Last Element Deleted is: %d", QUEUE[FRONT]);
+        FRONT = 0;
+        REAR = -1;
+    } else {
+        printf("\nDeleted item is %d", QUEUE[FRONT]);
+        FRONT++;
+    }
+}
+
+void Qdisplay() {
+    int i;
+    if (REAR < FRONT) {
+        printf("\n\tNo elements in Queue");
+    } else {
+        printf("\nQueue:");
+        for (i = FRONT; i <= REAR; i++) {
+            printf("%d\t", QUEUE[i]);
+        }
+        printf("\nFront element of the queue is: %d", QUEUE[FRONT]);
+        printf("\nRear element of the queue is: %d", QUEUE[REAR]);
+    }
+}
+
+int main() {
+    int ch;
+    while (1) {
+        printf("\nQueue Implementation using array");
+        printf("\n*********************************");
+        printf("\n1. Insert into Queue");
+        printf("\n2. Delete from Queue");
+        printf("\n3. Display Queue");
+        printf("\n4. Exit");
+        printf("\nEnter your choice: ");
+
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1:
+                Qinsert();
+                Qdisplay();
+                break;
+            case 2:
+                Qdelete();
+                Qdisplay();
+                break;
+            case 3:
+                Qdisplay();
+                break;
+            case 4:
+                return 0;
+            default:
+                printf("\nInvalid choice. Please try again.");
+        }
+    }
+}
