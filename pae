@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct poly {
+    int coeff;
+    int pow;
+    struct poly *next;
+};
+
+typedef struct poly NODE;
+
+NODE *poly1 = NULL;
+NODE *poly2 = NULL;
+NODE *poly3 = NULL;
+NODE *news = NULL;
+NODE *end = NULL;
+int item;
+
+void addpoly() {
+    int i, p;
+
+    printf("Enter highest power for x:\n");
+    scanf("%d", &p);
+
+    printf("\nFirst Polynomial:\n");
+    for (i = p; i >= 0; i--) {
+        news = (NODE *)malloc(sizeof(NODE));
+        news->pow = i;  // Set the power to the current degree
+        printf("Enter Co-efficient for degree %d:\n", i);
+        scanf("%d", &item);
+        news->coeff = item;
+        news->next = NULL;
+
+        if (poly1 == NULL) {
+            poly1 = news;
+        } else {
+            end->next = news;
+        }
+        end = news;
+    }
+
+    printf("\n\nSecond Polynomial:\n");
+    end = NULL; // Reset end for the second polynomial
+    for (i = p; i >= 0; i--) {
+        news = (NODE *)malloc(sizeof(NODE));
+        news->pow = i;  // Set the power to the current degree
+        printf("Enter Co-efficient for degree %d:\n", i);
+        scanf("%d", &item);
+        news->coeff = item;
+        news->next = NULL;
+
+        if (poly2 == NULL) {
+            poly2 = news;
+        } else {
+            end->next = news;
+        }
+        end = news;
+    }
+
+    NODE *p1 = poly1;
+    NODE *p2 = poly2;
+    end = NULL;
+
+    while (p1 != NULL || p2 != NULL) {
+        news = (NODE *)malloc(sizeof(NODE));
+        if (p1 != NULL && p2 != NULL) {
+            if (p1->pow == p2->pow) {
+                news->pow = p1->pow;
+                news->coeff = p1->coeff + p2->coeff;
+                p1 = p1->next;
+                p2 = p2->next;
+            } else if (p1->pow > p2->pow) {
+                news->pow = p1->pow;
+                news->coeff = p1->coeff;
+                p1 = p1->next;
+            } else {
+                news->pow = p2->pow;
+                news->coeff = p2->coeff;
+                p2 = p2->next;
+            }
+        } else if (p1 != NULL) {
+            news->pow = p1->pow;
+            news->coeff = p1->coeff;
+            p1 = p1->next;
+        } else {
+            news->pow = p2->pow;
+            news->coeff = p2->coeff;
+            p2 = p2->next;
+        }
+
+        news->next = NULL;
+        if (poly3 == NULL) {
+            poly3 = news;
+        } else {
+            end->next = news;
+        }
+        end = news;
+    }
+}
+
+void display() {
+    NODE *t = poly3;
+    printf("\n\nAnswer after addition is: ");
+    while (t != NULL) {
+        printf("%dX^%d", t->coeff, t->pow);
+        t = t->next;
+        if (t != NULL) {
+            printf(" + ");
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    addpoly();
+    display();
+    return 0;
+}
