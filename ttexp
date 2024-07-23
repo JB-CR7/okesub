@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <ctype.h>
+
+#define MAX 20
+
+int s[MAX], top = -1;
+
+void push(int ch);
+int pop();
+
+int main() {
+    char postfix[MAX];
+    char ch;
+    int i, op1, op2, res;
+
+    printf("\n\t\tProgram to Evaluate Postfix Expression.");
+    printf("\nEnter the postfix expression: \n");
+    scanf("%s", postfix);
+
+    for (i = 0; i < strlen(postfix); i++) {
+        ch = postfix[i];
+        if (isdigit(ch)) {
+            push(ch - '0');
+        } else {
+            op2 = pop();
+            op1 = pop();
+            switch (ch) {
+                case '+':
+                    res = op1 + op2;
+                    break;
+                case '-':
+                    res = op1 - op2;
+                    break;
+                case '*':
+                    res = op1 * op2;
+                    break;
+                case '/':
+                    res = op1 / op2;
+                    break;
+                case '^':
+                    res = (int)pow(op1, op2);
+                    break;
+                default:
+                    printf("Invalid Character\n");
+                    return -1; // Exit on invalid character
+            }
+            push(res);
+        }
+    }
+    printf("Result of above expression is: %d\n", pop());
+    return 0;
+}
+
+void push(int element) {
+    if (top < MAX - 1) { // Check for stack overflow
+        ++top;
+        s[top] = element;
+    } else {
+        printf("Stack Overflow\n");
+    }
+}
+
+int pop() {
+    if (top >= 0) { // Check for stack underflow
+        return s[top--];
+    } else {
+        printf("Stack Underflow\n");
+        return -1; // Return an error value
+    }
+}
