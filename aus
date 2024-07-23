@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAXSTK 5
+
+int TOP = -1;
+int s[MAXSTK];
+
+void push();
+void pop();
+void display();
+
+int main() {
+    int choice;
+    while (1) {
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Display\n");
+        printf("4. Quit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                push();
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Wrong choice\n");
+        } /* End of switch */
+    }
+}
+
+void push() {
+    int item;
+    if (TOP == (MAXSTK - 1)) {
+        printf("Stack Overflow\n");
+    } else {
+        printf("Enter the item to be pushed onto the stack: ");
+        scanf("%d", &item);
+        TOP = TOP + 1;
+        s[TOP] = item;
+    }
+}
+void pop() {
+    if (TOP == -1) {
+        printf("Stack Underflow\n");
+    } else {
+        printf("Popped element is: %d\n", s[TOP]);
+        TOP = TOP - 1;
+    }
+}
+void display() {
+    int i;
+    if (TOP == -1) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Stack elements:\n");
+        for (i = TOP; i >= 0; i--) {
+            printf("%d\n", s[i]);
+        }
+    }
+}
